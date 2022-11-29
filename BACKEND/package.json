@@ -4,24 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-   
     "build": "echo \"No build specified\" && exit 1",
-     "test": "echo \"No test specified\" && exit 1",
-    
+    "test": "echo \"No test specified\" && exit 1",
     "start": "node index.js"
   },
   "keywords": [],
   "author": "",
   "repository": {
-        "type": "git",
-         "url": "git+https://github.com/Pradeep-PSY/back-track.git"
-       },
-     
-      
-       "bugs": {
-           "url": "https://github.com/Pradeep-PSY/back-track/issues"
-       },
-     "homepage": "https://github.com/Pradeep-PSY/back-track#readme",
+    "type": "git",
+    "url": "git+https://github.com/Pradeep-PSY/back-track.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Pradeep-PSY/back-track/issues"
+  },
+  "homepage": "https://github.com/Pradeep-PSY/back-track#readme",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
