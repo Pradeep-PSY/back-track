@@ -36,7 +36,6 @@ app.use("/notes",notesController);
 app.use("/auth", authRouter);
 
 app.use("/note",noteRouter);
-app.use("/auth",authRouter)
 
 
 

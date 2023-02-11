@@ -29,29 +29,31 @@ authRouter.post("/login", async (req, res) => {
     let { email, password } = req.body;
 
     const userInfo = await User.findOne({ email });
-    const hash_pass = userInfo.password;
-
+    
     console.log({ "userInfo": userInfo })
     if (!userInfo) {
         return res.send("Invalide connections");
     }
-
-    await bcrypt.compare(password, hash_pass, function (err, result) {
-        if (err) {
-            return res.send("try again");
+    else{
+        
+        const hash_pass = userInfo.password;
+        await bcrypt.compare(password, hash_pass, function (err, result) {
+            if (err) {
+                return res.send("try again");
+            }
+            if (result) {
+                const token = jwt.sign(
+                    { email: userInfo.email, _id: userInfo._id },
+                    "secret",
+                    // { expiresIn: "1hr" }
+                    );
+                    console.log(token)
+                    return res.send({ message: "Login Success", token: token });
+                } else {
+                    return res.send("Invalid Credentials");
+                }
+            });
         }
-        if (result) {
-            const token = jwt.sign(
-                { email: userInfo.email, _id: userInfo._id },
-                "secret",
-                // { expiresIn: "1hr" }
-            );
-            console.log(token)
-            return res.send({ message: "Login Success", token: token });
-        } else {
-            return res.send("Invalide connections");
-        }
-    });
 
 })
 
