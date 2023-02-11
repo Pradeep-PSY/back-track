@@ -30,11 +30,11 @@ let upload = multer({ storage: storage })
 
 note.post("/create", validator, async (req, res) => {
 
-    const { Title, user_id, Note, img, TitleGroup, time, endTime, DATE } = req.body;
+    const { Title, userId, Note, img, TitleGroup, time, endTime, DATE } = req.body;
     const new_note = new UserModel({
         Title,
         createdate: DATE,
-        user_id,
+        userId,
         Note,
         TitleGroup,
         img,

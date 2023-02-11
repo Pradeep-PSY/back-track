@@ -1,10 +1,10 @@
 const { Router } = require("express");
 const NotesModel = require("../Model/NotesModel");
+const authentication = require("../Middleware/Authentication");
 const notesController = Router();
 
-notesController.post("/create", async (req, res) => {
-  const { note } = req.body;
-  const userId = req.headers.authorization.split(" ")[1];
+notesController.post("/create",authentication, async (req, res) => {
+  const { note,userId } = req.body;
   // console.log(userId)
   const task = new NotesModel({
     note,
@@ -15,8 +15,9 @@ notesController.post("/create", async (req, res) => {
   res.send(task);
 });
 
-notesController.get("/", async (req, res) => {
-  const userId = req.headers.authorization.split(" ")[1];
+
+notesController.get("/",authentication, async (req, res) => {
+  const {userId} = req.body;
   const task = await NotesModel.find({ userId });
   //   console.log(task);
   res.send(task);
@@ -24,7 +25,7 @@ notesController.get("/", async (req, res) => {
 
 notesController.patch("/:noteId/update", async (req, res) => {
   const { noteId } = req.params;
-  const userId = req.headers.authorization.split(" ")[1];
+  const {userId} = req.body;
   const task = await NotesModel.findOneAndUpdate(
     { _id: noteId, userId },
     req.body,
@@ -36,7 +37,7 @@ notesController.patch("/:noteId/update", async (req, res) => {
 
 notesController.delete("/:noteId/delete", async (req, res) => {
   const { noteId } = req.params;
-  const userId = req.headers.authorization.split(" ")[1];
+  const {userId} = req.body;
   await NotesModel.findOneAndDelete({ _id: noteId, userId });
   return res.send({ noteId }); 
 });

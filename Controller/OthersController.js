@@ -3,8 +3,8 @@ const OthersModel = require("../Model/OthersModel");
 const othersController = Router();
 
 othersController.post("/create", async (req, res) => {
-  const { task_name, task_details, task_completed, sub_task } = req.body;
-  const userId = req.headers.authorization.split(" ")[1];
+  const { task_name,userId, task_details, task_completed, sub_task } = req.body;
+  
   // console.log(userId)
   const task = new OthersModel({
     task_name,
@@ -19,7 +19,7 @@ othersController.post("/create", async (req, res) => {
 });
 
 othersController.get("/", async (req, res) => {
-  const userId = req.headers.authorization.split(" ")[1];
+  const {userId} = req.body;
   const task = await OthersModel.find({ userId });
   //   console.log(task);
   res.send(task);
@@ -27,7 +27,7 @@ othersController.get("/", async (req, res) => {
 
 othersController.patch("/:taskId/update", async (req, res) => {
   const { taskId } = req.params;
-  const userId = req.headers.authorization.split(" ")[1];
+  const {userId} = req.body;
   const task = await OthersModel.findOneAndUpdate(
     { _id: taskId, userId },
     req.body,
@@ -39,7 +39,7 @@ othersController.patch("/:taskId/update", async (req, res) => {
 
 othersController.delete("/:taskId/delete", async (req, res) => {
   const { taskId } = req.params;
-  const userId = req.headers.authorization.split(" ")[1];
+  const {userId} = req.body;
   await OthersModel.findOneAndDelete({ _id: taskId, userId });
   return res.send({ taskId }); 
 });

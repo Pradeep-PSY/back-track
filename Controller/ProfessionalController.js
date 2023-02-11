@@ -3,8 +3,7 @@ const ProfessionalModel = require("../Model/ProfessionalModel");
 const professionalController = Router();
 
 professionalController.post("/create", async (req, res) => {
-  const { task_name, task_details, task_completed, sub_task } = req.body;
-  const userId = req.headers.authorization.split(" ")[1];
+  const { task_name,userId, task_details, task_completed, sub_task } = req.body;
   // console.log(userId)
   const task = new ProfessionalModel({
     task_name,
@@ -19,7 +18,7 @@ professionalController.post("/create", async (req, res) => {
 });
 
 professionalController.get("/", async (req, res) => {
-  const userId = req.headers.authorization.split(" ")[1];
+  const {userId} = req.body;
   const task = await ProfessionalModel.find({ userId });
   console.log(task);
   res.send(task);
@@ -27,7 +26,7 @@ professionalController.get("/", async (req, res) => {
 
 professionalController.patch("/:taskId/update",async (req, res)=>{
     const { taskId } = req.params;
-    const userId = req.headers.authorization.split(" ")[1];
+    const {userId} = req.body;
     const task = await ProfessionalModel.findOneAndUpdate(
       { _id: taskId,userId },
       req.body,
@@ -39,7 +38,7 @@ professionalController.patch("/:taskId/update",async (req, res)=>{
 
 professionalController.delete("/:taskId/delete",async (req, res)=>{
     const { taskId } = req.params; 
-    const userId = req.headers.authorization.split(" ")[1];
+    const {userId} = req.body;
   await ProfessionalModel.findOneAndDelete({ _id: taskId,userId });
   return res.send({ taskId});
 })

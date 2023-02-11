@@ -4,8 +4,7 @@ const TaskModel = require("../Model/TaskModel");
 const taskController = Router();
 
 taskController.post("/create", async (req, res) => {
-    const {task_name,task_details,task_completed,sub_task} = req.body;
-    const userId = req.headers.authorization.split(" ")[1];
+    const {task_name,userId,task_details,task_completed,sub_task} = req.body;
     // console.log(userId)
     const task = new TaskModel({task_name,task_details,task_completed,sub_task,userId});
     // console.log(task);
@@ -14,7 +13,7 @@ taskController.post("/create", async (req, res) => {
 })
 
 taskController.get("/", async (req, res)=>{
-    const userId = req.headers.authorization.split(" ")[1];
+    const {userId} = req.body;
     const task = await TaskModel.find({userId});
     console.log(task);
     res.send(task)

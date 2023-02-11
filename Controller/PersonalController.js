@@ -4,7 +4,7 @@ const personalController = Router();
 
 personalController.post("/create", async (req, res) => {
   const { task_name, task_details, task_completed, sub_task } = req.body;
-  const userId = req.headers.authorization.split(" ")[1];
+  const {userId} = req.body;
   // console.log(userId)
   const task = new PersonalModel({
     task_name,
@@ -19,7 +19,7 @@ personalController.post("/create", async (req, res) => {
 });
 
 personalController.get("/", async (req, res) => {
-  const userId = req.headers.authorization.split(" ")[1];
+  const {userId} = req.body;
   const task = await PersonalModel.find({ userId });
   console.log(task);
   res.send(task);
@@ -27,7 +27,7 @@ personalController.get("/", async (req, res) => {
 
 personalController.patch("/:taskId/update",async (req, res)=>{
     const { taskId } = req.params;
-    const userId = req.headers.authorization.split(" ")[1];
+    const {userId} = req.body;
     const task = await PersonalModel.findOneAndUpdate(
       { _id: taskId,userId },
       req.body,
@@ -39,7 +39,7 @@ personalController.patch("/:taskId/update",async (req, res)=>{
 
 personalController.delete("/:taskId/delete",async (req, res)=>{
     const { taskId } = req.params; 
-    const userId = req.headers.authorization.split(" ")[1];
+    const {userId} = req.body;
   await PersonalModel.findOneAndDelete({ _id: taskId,userId });
   return res.send({ taskId });
 })
