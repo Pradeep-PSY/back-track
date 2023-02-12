@@ -19,7 +19,7 @@ othersController.post("/create",authentication, async (req, res) => {
   res.send(task);
 });
 
-othersController.get("/", async (req, res) => {
+othersController.get("/",authentication, async (req, res) => {
   const {userId} = req.body;
   const task = await OthersModel.find({ userId });
   //   console.log(task);
