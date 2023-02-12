@@ -1,8 +1,9 @@
 const { Router } = require("express");
 const OthersModel = require("../Model/OthersModel");
+const authentication = require("../Middleware/Authentication");
 const othersController = Router();
 
-othersController.post("/create", async (req, res) => {
+othersController.post("/create",authentication, async (req, res) => {
   const { task_name,userId, task_details, task_completed, sub_task } = req.body;
   
   // console.log(userId)
@@ -25,7 +26,7 @@ othersController.get("/", async (req, res) => {
   res.send(task);
 });
 
-othersController.patch("/:taskId/update", async (req, res) => {
+othersController.patch("/:taskId/update",authentication, async (req, res) => {
   const { taskId } = req.params;
   const {userId} = req.body;
   const task = await OthersModel.findOneAndUpdate(
@@ -37,7 +38,7 @@ othersController.patch("/:taskId/update", async (req, res) => {
   return res.send({ message: "successfully updated", task });
 });
 
-othersController.delete("/:taskId/delete", async (req, res) => {
+othersController.delete("/:taskId/delete",authentication, async (req, res) => {
   const { taskId } = req.params;
   const {userId} = req.body;
   await OthersModel.findOneAndDelete({ _id: taskId, userId });

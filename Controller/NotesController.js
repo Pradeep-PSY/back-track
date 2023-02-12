@@ -23,7 +23,7 @@ notesController.get("/",authentication, async (req, res) => {
   res.send(task);
 });
 
-notesController.patch("/:noteId/update", async (req, res) => {
+notesController.patch("/:noteId/update",authentication, async (req, res) => {
   const { noteId } = req.params;
   const {userId} = req.body;
   const task = await NotesModel.findOneAndUpdate(
@@ -35,7 +35,7 @@ notesController.patch("/:noteId/update", async (req, res) => {
   return res.send({ message: "successfully updated", task });
 });
 
-notesController.delete("/:noteId/delete", async (req, res) => {
+notesController.delete("/:noteId/delete",authentication, async (req, res) => {
   const { noteId } = req.params;
   const {userId} = req.body;
   await NotesModel.findOneAndDelete({ _id: noteId, userId });
